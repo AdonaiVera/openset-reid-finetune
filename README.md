@@ -1,5 +1,7 @@
 # 📦 FiftyOne-Compatible Multiview Person ReID with Visual Attributes
 
+https://github.com/user-attachments/assets/aaa672df-0810-4fc4-8be9-fa44e60b9ee2
+
 A curated, attribute-rich person re-identification dataset based on **Market-1501**, enhanced with:
 
 * ✅ Multi-view images per person
@@ -107,7 +109,7 @@ Please cite and credit if using in academic or applied research.
 
 * Market-1501 dataset creators
 * Google Gemini Vision model
-* Voxel51 & FiftyOne team
+* Voxel51 team
 
 ## 📬 Contact
 
