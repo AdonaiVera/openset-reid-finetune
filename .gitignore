@@ -1,0 +1,7 @@
+# Ignore all files in the dataset directory
+dataset/*
+
+# Ignore all files in the .venv directory
+.venv/*
+uv.lock
+.env
