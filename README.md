@@ -1,4 +1,4 @@
-# 📦 FiftyOne-Compatible Multiview Person ReID with Visual Attributes
+# 📦 FiftyOne Multiview Person ReID with Visual Attributes
 
 https://github.com/user-attachments/assets/aaa672df-0810-4fc4-8be9-fa44e60b9ee2
 
@@ -11,12 +11,12 @@ A curated, attribute-rich person re-identification dataset based on **Market-150
 
 ## 📊 Dataset Statistics
 
-| Subset    | Samples   |
-| --------- | --------- |
-| Train     | 3,181     |
-| Query     | 1,726     |
-| Gallery   | 1,548     |
-| **Total** | **6,455** |
+| Subset     | Samples   |
+| ---------- | --------- |
+| Train      | 3,181     |
+| Evaluation | 1,726     |
+| Test       | 1,548     |
+| **Total**  | **6,455** |
 
 ## 📥 Installation
 
@@ -24,7 +24,7 @@ A curated, attribute-rich person re-identification dataset based on **Market-150
 uv init --bare --python 3.12
 uv sync --python 3.12
 source .venv/bin/activate
-uv add fiftyone huggingface-hub python-dotenv google-generativeai torch numpy torchvision pillow datasets transformers wandb
+uv add fiftyone huggingface-hub python-dotenv google-generativeai torch numpy torchvision pillow datasets transformers wandb sentencepiece
 ```
 
 ## 🔑 Environment Setup

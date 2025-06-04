@@ -1,7 +1,15 @@
 # Ignore all files in the dataset directory
 dataset/*
+wandb/
+models/
 
 # Ignore all files in the .venv directory
 .venv/*
 uv.lock
 .env
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
