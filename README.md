@@ -106,6 +106,15 @@ Each sample includes:
 ## 📥 Installation
 
 ```bash
+# Clone the repository:
+git clone https://github.com/AdonaiVera/openset-reid-finetune
+cd openset-reid-finetune
+
+# If you also want to include the Gradio demo Space as a submodule, run:
+git submodule add https://huggingface.co/spaces/adonaivera/siglip-person-finder
+
+
+# Install the dependencies:
 uv init --bare --python 3.12
 uv sync --python 3.12
 source .venv/bin/activate
