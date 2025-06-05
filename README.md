@@ -1,6 +1,6 @@
 # 🧠 SigLIP Person Finder + 📦 Multi-view ReID Dataset
 
-[![Gradio Demo](https://huggingface.co/datasets/huggingface/badges/raw/main/gradio.svg)](https://huggingface.co/spaces/adonaivera/siglip-person-finder)
+[![Gradio Demo](https://img.shields.io/badge/Gradio-Demo-blue?logo=gradio)](https://huggingface.co/spaces/adonaivera/siglip-person-finder)
 
 An open-set person search system using natural language descriptions and a curated ReID dataset enriched with rich semantic attributes.
 
@@ -11,22 +11,21 @@ An open-set person search system using natural language descriptions and a curat
 
 That’s the goal. Instead of closed-set ID matching, this system enables **text-based retrieval** for both **images** and **videos** using a fine-tuned [SigLIP](https://arxiv.org/abs/2303.15343) model.
 
-
-## 🎥 Try the Demo
-
-Upload an image or video and enter a description:
-
 ## 📚 Example Prompt
 
 > “A woman wearing blue jeans and a casual top, carrying a handbag over her shoulder.”
 
 Result:
-![example](assets/processed_image1.jpg)
+![processed_image1](https://github.com/user-attachments/assets/d9999ee1-30ce-4753-a973-08d8bda5d3ee)
+
 
 
 > “A man is walking next to a bicycle, wearing blue denim bermuda shorts and a plain white t-shirt.”
 
 Result:
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/29b23456-cc72-4c60-aa34-43fe282512e6" alt="bike" />
+</p>
 
 
 ## 🧩 Key Features
@@ -111,11 +110,6 @@ uv init --bare --python 3.12
 uv sync --python 3.12
 source .venv/bin/activate
 uv add fiftyone huggingface-hub python-dotenv google-generativeai torch numpy torchvision pillow datasets transformers wandb sentencepiece ultralytics gradio spaces
-
-Then run the app:
-
-```bash
-python app.py
 ```
 
 
@@ -140,9 +134,9 @@ This dataset is designed to enhance re-identification tasks with rich semantic c
 
 ## ❗ Limitations & Ethical Considerations
 
-* ⚠️ The base Market-1501 dataset may contain inherent demographic or collection biases.
-* ⚠️ All attribute descriptions are **AI-generated** — may contain occasional hallucinations or uncertain estimations.
-* ⚠️ Not suitable for deployment in **real-world surveillance** or **law enforcement** contexts without further validation.
+* The base Market-1501 dataset may contain inherent demographic or collection biases. ⚠️
+* All attribute descriptions are **AI-generated** — may contain occasional hallucinations or uncertain estimations. ⚠️
+* Not suitable for deployment in **real-world surveillance** or **law enforcement** contexts without further validation. ⚠️
 
 ## 🧠 Why SigLIP?
 
@@ -200,10 +194,12 @@ We adopted a cosine-based InfoNCE loss approach for independent image-text pair 
 
 ## 🙏 Thanks
 
-* 📸 [Market-1501](https://github.com/zhunzhong07/IDE-baseline-Market-1501) authors
+* 📸 [Market-1501](https://www.cv-foundation.org/openaccess/content_iccv_2015/papers/Zheng_Scalable_Person_Re-Identification_ICCV_2015_paper.pdf) 
 * 🔍 [FiftyOne](https://voxel51.com/fiftyone/)
-* 🧠 [Gemini Vision](https://deepmind.google/discover/blog/gemini-1-5/)
-* 📦 [SigLIP](https://github.com/google-research/vision_transformer)
+* 🧠 [Gemini Vision](https://blog.google/technology/ai/google-gemini-next-generation-model-february-2024/)
+* 📦 [SigLIP](https://arxiv.org/abs/2303.15343)
+
+Google Cloud credits are provided for this project ! Thank you to the #AISprint initiative for supporting this work. 🚀
 
 ## 📬 Contact
 
@@ -211,7 +207,7 @@ For questions, improvements, or bug reports:
 ➡️ Open an issue in the [GitHub repository](https://github.com/AdonaiVera/openset-reid-finetune)
 
 ## 📚 References
-
+```bash
 @inproceedings{zheng2015scalable,
   title={Scalable Person Re-identification: A Benchmark},
   author={Zheng, Liang and Shen, Liyue and Tian, Lu and Wang, Shengjin and Wang, Jingdong and Tian, Qi},
@@ -219,4 +215,5 @@ For questions, improvements, or bug reports:
   pages={1116--1124},
   year={2015}
 }
+```
 
