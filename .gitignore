@@ -2,6 +2,10 @@
 dataset/*
 wandb/
 models/
+outputs/
+input/
+output/
+siglip-person-search-openset/
 
 # Ignore all files in the .venv directory
 .venv/*
@@ -13,3 +17,5 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Ignore local models
+yolov8n.pt

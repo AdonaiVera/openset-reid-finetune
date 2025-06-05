@@ -39,7 +39,9 @@ class TextImageDataset(Dataset):
                     attributes.append(f"{category}: {attrs}")
 
         text = sample.description
-        if attributes:
+
+        # For now we are going to ignore the attributes.
+        if attributes and False:
             text = f"{text}. This person has {', '.join(attributes)}"
 
         return {

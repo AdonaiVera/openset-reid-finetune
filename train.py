@@ -7,7 +7,7 @@ import wandb
 import os
 
 from tqdm import tqdm
-from transformers import AutoProcessor, AutoModel, get_scheduler
+from transformers import AutoProcessor, SiglipModel, get_scheduler
 from torch.optim import AdamW
 from torch.utils.data import DataLoader
 from utils.datasets import TextImageDataset, load_dataset
@@ -54,24 +54,48 @@ class SigLIPTrainer:
     @torch.no_grad()
     def validate(self, val_dataloader):
         self.model.eval()
-        sims = []
+        all_image_feats = []
+        all_text_feats = []
+
         for batch in tqdm(val_dataloader):
             batch = {k: v.to(self.device) for k, v in batch.items() if torch.is_tensor(v)}
+
             image_feats = self.model.get_image_features(batch['pixel_values'])
             text_feats = self.model.get_text_features(batch['input_ids'], batch['attention_mask'])
+
             image_feats = F.normalize(image_feats, dim=-1)
             text_feats = F.normalize(text_feats, dim=-1)
-            cosine_sim = torch.sum(image_feats * text_feats, dim=-1)
-            sims.extend(cosine_sim.cpu().tolist())
-        return np.mean(sims)
+
+            all_image_feats.append(image_feats)
+            all_text_feats.append(text_feats)
+
+        image_feats = torch.cat(all_image_feats, dim=0)
+        text_feats = torch.cat(all_text_feats, dim=0)
+
+        similarity_matrix = image_feats @ text_feats.T
+
+        # Ground-truth: index i is paired with i
+        target = torch.arange(similarity_matrix.size(0)).to(self.device)
+
+        # Image-to-text retrieval
+        top1 = similarity_matrix.topk(1, dim=1).indices.squeeze()
+        recall_at_1 = (top1 == target).float().mean().item()
+        
+        top5 = similarity_matrix.topk(5, dim=1).indices
+        recall_at_5 = (top5 == target.unsqueeze(1)).any(dim=1).float().mean().item()
+
+        print(f"🔍 Recall@1: {recall_at_1:.4f} | Recall@5: {recall_at_5:.4f}")
+        return recall_at_5
+
+
 
 def main():
     parser = argparse.ArgumentParser(description="Train SigLIP for open-set text-image similarity.")
-    parser.add_argument("--epochs", type=int, default=2, help="Number of training epochs")
+    parser.add_argument("--epochs", type=int, default=100, help="Number of training epochs")
     parser.add_argument("--batch_size", type=int, default=16, help="Batch size for training")
     parser.add_argument("--lr", type=float, default=1e-5, help="Learning rate")
     parser.add_argument("--save_dir", type=str, default="models", help="Directory to save model checkpoints")
-    parser.add_argument("--patience", type=int, default=3, help="Early stopping patience")
+    parser.add_argument("--patience", type=int, default=5, help="Early stopping patience")
     args = parser.parse_args()
 
     # Init W&B
@@ -83,7 +107,7 @@ def main():
     # Load dataset and model
     print("Loading dataset and model...")
     dataset = load_dataset()
-    model = AutoModel.from_pretrained("google/siglip-base-patch16-224")
+    model = SiglipModel.from_pretrained("google/siglip-base-patch16-224")
     processor = AutoProcessor.from_pretrained("google/siglip-base-patch16-224")
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model.to(device)
@@ -98,7 +122,7 @@ def main():
         num_workers=mp.cpu_count() - 1,
     )
 
-    val_ds = TextImageDataset(dataset, split="val", processor=processor, augment=False)
+    val_ds = TextImageDataset(dataset, split="query", processor=processor, augment=False)
     val_dl = DataLoader(
         val_ds,
         batch_size=args.batch_size,
@@ -116,7 +140,7 @@ def main():
     trainer = SigLIPTrainer(model, train_dl, optimizer, scheduler, device)
 
     # Training loop with early stopping
-    best_val_score = -float("inf")
+    best_loss = float("inf")
     no_improve_epochs = 0
 
     for epoch in range(args.epochs):
@@ -131,10 +155,10 @@ def main():
             "val_score": val_score
         })
 
-        if val_score > best_val_score:
-            best_val_score = val_score
+        if avg_loss < best_loss:
+            best_loss = avg_loss
             no_improve_epochs = 0
-            best_path = os.path.join(args.save_dir, f"best_model_epoch_{epoch + 1}_val_{val_score:.4f}.pt")
+            best_path = os.path.join(args.save_dir, f"best_model_epoch_{epoch + 1}_loss_{avg_loss:.4f}.pt")
             torch.save(model.state_dict(), best_path)
             print(f"✅ New best model saved to {best_path}")
         else:
