@@ -1,9 +1,21 @@
 # 🧠 SigLIP Person Finder + 📦 Multi-view ReID Dataset
 
 [![Gradio Demo](https://img.shields.io/badge/Gradio-Demo-blue?logo=gradio)](https://huggingface.co/spaces/adonaivera/siglip-person-finder)
+[![Google Colab](https://img.shields.io/badge/Google%20Colab-Open%20Notebook-orange?logo=google-colab)](https://colab.research.google.com/github/AdonaiVera/openset-reid-finetune/blob/main/openset_reid_colab.ipynb)
 
 An open-set person search system using natural language descriptions and a curated ReID dataset enriched with rich semantic attributes.
 
+## 🚀 Quick Start with Google Colab
+
+Want to try this project without any setup? Click the button above to open our **complete Google Colab notebook** that includes:
+
+✅ **One-click setup** - Clone repo and install dependencies  
+✅ **Dataset download** - Automatic download from Hugging Face  
+✅ **Model training** - Train SigLIP with optimized Colab settings  
+✅ **Interactive inference** - Test with your own images and text prompts  
+✅ **Visual results** - See bounding boxes and similarity scores  
+
+Perfect for experimentation and learning! 🎓
 
 ## 🎯 Use Case
 
