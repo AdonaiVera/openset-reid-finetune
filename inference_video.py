@@ -16,7 +16,7 @@ SIM_THRESHOLD = 0.15
 INTERVAL_FRAMES = 30
 
 os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-
+ 
 # Load SigLIP
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 processor = AutoProcessor.from_pretrained(HF_MODEL)
